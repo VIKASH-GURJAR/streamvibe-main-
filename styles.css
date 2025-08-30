@@ -1,0 +1,143 @@
+:root{
+  --bg:#0b0f14; --card:#0f1720; --muted:#9aa2ad; --accent:#ff3b30;
+  --gap:12px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Inter, system-ui, sans-serif; background:linear-gradient(180deg,#030406,#071018); color:#e6edf3;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:10px 14px; position:sticky; top:0; background:rgba(2,6,10,0.6); backdrop-filter:blur(6px); z-index:40;
+}
+.topbar .logo{font-weight:700; font-size:1.05rem; margin-left:6px}
+.topbar .left,.topbar .center,.topbar .right{display:flex; align-items:center; gap:8px}
+.icon-btn{background:transparent;border:0;color:inherit;font-size:1.2rem;padding:6px;border-radius:8px}
+.btn{padding:6px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06); color:inherit;text-decoration:none}
+.btn.primary{background:var(--accent); color:white;border:0}
+.btn.danger{background:#6b0018;color:white}
+.container{padding:14px; max-width:1100px; margin:0 auto}
+.narrow{max-width:800px}
+
+/* player */
+.player-area{margin-bottom:14px}
+.player-wrapper{background:var(--card); border-radius:12px; overflow:hidden; position:relative; aspect-ratio:21/10; display:flex; align-items:center; justify-content:center}
+.player-wrapper iframe, .preview-area iframe{width:100%; height:100%; border:0; display:block; object-fit:fill}
+.player-meta{display:flex; justify-content:space-between; align-items:center; margin-top:0px}
+.player-meta h2{margin:0; font-size:1.05rem}
+
+/* grid */
+.grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+@media(min-width:720px){ .grid{grid-template-columns:repeat(3,1fr)} }
+@media(min-width:1024px){ .grid{grid-template-columns:repeat(4,1fr)} }
+
+.card{background:var(--card); padding:12px; border-radius:12px}
+.preview{margin-top:12px}
+.preview-area{background:#081018; padding:8px; border-radius:8px}
+
+/* video card */
+.video-card{background:#061018;border-radius:10px;overflow:hidden}
+.thumb{position:relative; aspect-ratio:16/9; background:#071420; display:flex; align-items:center; justify-content:center}
+.thumb img{width:100%; height:100%; object-fit:cover}
+.vmeta{padding:8px}
+.vmeta h4{margin:0;font-size:0.95rem;line-height:1.15}
+.tag{display:inline-block;padding:4px 8px;border-radius:999px;font-size:0.75rem;background:#07121a;color:var(--muted);margin-right:6px;margin-top:8px}
+
+/* three dots & popup */
+.moreBtn {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-size: 26px;  /* bigger clickable area */
+  cursor: pointer;
+  padding: 8px;     /* extra padding for click target */
+  border-radius: 6px;
+}
+
+.moreBtn:hover {
+  background: rgba(233, 4, 4, 0.1);
+}
+
+.menu-popup {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #0d1b2a;
+  padding: 14px 12px;     /* bigger padding */
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+  z-index: 60;
+  min-width: 180px;       /* make popup wider */
+}
+
+.menu-popup button {
+  background: transparent;
+  border: 0;
+  color: #e6edf3;
+  padding: 12px 14px;     /* larger clickable area */
+  text-align: left;
+  font-size: 0.95rem;     /* slightly larger text */
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.menu-popup button:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+
+/* modal */
+.modal{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); z-index:70}
+.modal .modal-content{background:var(--card); padding:14px; border-radius:12px; width:90%; max-width:360px; position:relative}
+.hidden{display:none}
+
+/* list */
+.list{display:flex; flex-direction:column; gap:10px; margin-top:12px}
+.row{display:flex; gap:8px}
+
+/* small helpers */
+.small{font-size:0.85rem;color:var(--muted)}
+.form-actions{display:flex; gap:10px; margin-top:10px}
+
+/* Playlist buttons */
+.btn.view {
+  background: #22c55e; /* green */
+  color: white;
+  border: 0;
+}
+.btn.view:hover {
+  background: #16a34a;
+}
+
+.btn.delete {
+  background: #ef4444; /* red */
+  color: white;
+  border: 0;
+}
+.btn.delete:hover {
+  background: #dc2626;
+}
+
+
+/* Restore button in deleted page */
+.btn.restore {
+  background: #22c55e;   /* green */
+  color: white;
+  border: none;
+  padding: 10px 16px;    /* bigger click area */
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn.restore:hover {
+  background: #16a34a;   /* darker green on hover */
+}
+

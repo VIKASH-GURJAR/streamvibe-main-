@@ -1,0 +1,147 @@
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stream44 — Upload</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            darkbg: '#121212',
+            darkcard: '#1E1E1E',
+            darkborder: '#333333',
+            darkblue: '#3B82F6',
+            darkbluehover: '#2563EB',
+            darkgraytext: '#D1D5DB',
+            darkgraytext2: '#9CA3AF',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    /* Hide scrollbar for preview area if overflow */
+    #previewArea::-webkit-scrollbar {
+      display: none;
+    }
+    #previewArea {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-darkbg min-h-screen flex flex-col text-darkgraytext">
+  <header class="topbar bg-darkcard shadow-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center h-14">
+        <a href="index.html" class="text-darkblue text-lg font-semibold flex items-center hover:text-darkbluehover transition-colors duration-300">
+          <i class="fas fa-arrow-left mr-2"></i> Stream44
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-extrabold text-gray-100 mb-8 text-center sm:text-left">Upload Video</h1>
+    <form id="uploadForm" class="bg-darkcard rounded-lg shadow-md p-6 sm:p-8 space-y-6">
+      <div class="flex flex-col">
+        <label for="title" class="mb-2 font-medium text-darkgraytext">Title <span class="text-red-500">*</span></label>
+        <input id="title" type="text" required
+          class="bg-darkbg border border-darkborder rounded-md px-4 py-2 text-gray-100 placeholder-darkgraytext2 focus:outline-none focus:ring-2 focus:ring-darkblue focus:border-transparent transition duration-300" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="tags" class="mb-2 font-medium text-darkgraytext">Tags (comma separated)</label>
+        <input id="tags" type="text" placeholder="music, gaming, tutorial"
+          class="bg-darkbg border border-darkborder rounded-md px-4 py-2 text-gray-100 placeholder-darkgraytext2 focus:outline-none focus:ring-2 focus:ring-darkblue focus:border-transparent transition duration-300" />
+      </div>
+
+      <div class="flex flex-col">
+      
+        <code style="color: green;">&lt;iframe width="100%" height="auto" style="aspect-ratio: 16/9;" src="" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</code>
+       <label for="iframe_html" class="mb-2 font-medium text-darkgraytext">Iframe embed code (paste)
+          <span class="text-red-500">*</span></label>
+        <textarea id="iframe_html" rows="6" placeholder='<iframe src="https://www.youtube.com/embed/VIDEO_ID" ...></iframe>' required
+          class="bg-darkbg border border-darkborder rounded-md px-4 py-2 resize-y text-gray-100 placeholder-darkgraytext2 focus:outline-none focus:ring-2 focus:ring-darkblue focus:border-transparent transition duration-300"></textarea>
+      </div>
+
+      <div id="preview" class="preview mt-2">
+        <h4 class="text-xl font-semibold text-gray-100 mb-4">Preview</h4>
+        <div id="previewArea" class="preview-area border border-darkborder rounded-md p-2 overflow-auto max-h-72 bg-darkbg"></div>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="thumbnail" class="mb-2 font-medium text-darkgraytext">Thumbnail URL (optional)</label>
+        <input id="thumbnail" type="url" placeholder="https://..."
+          class="bg-darkbg border border-darkborder rounded-md px-4 py-2 text-gray-100 placeholder-darkgraytext2 focus:outline-none focus:ring-2 focus:ring-darkblue focus:border-transparent transition duration-300" />
+      </div>
+
+      <div class="form-actions flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0 justify-center sm:justify-start">
+        <button id="uploadBtn" type="submit"
+          class="btn primary bg-darkblue hover:bg-darkbluehover text-white font-semibold rounded-md px-6 py-3 transition duration-300 focus:outline-none focus:ring-4 focus:ring-darkblue/50 flex items-center justify-center">
+          <i class="fas fa-upload mr-2"></i> Upload
+        </button>
+        <a href="index.html"
+          class="btn bg-gray-700 hover:bg-gray-600 text-gray-300 font-semibold rounded-md px-6 py-3 text-center transition duration-300 focus:outline-none focus:ring-4 focus:ring-gray-600 flex items-center justify-center">
+          <i class="fas fa-times mr-2"></i> Cancel
+        </a>
+      </div>
+    </form>
+<!-- edit for crud on 30 aug -->
+ <!-- Manage uploaded videos (paste directly after the upload form) -->
+<h2 class="text-2xl font-bold text-gray-100 mt-10 mb-4">Manage Uploaded Videos</h2>
+<div id="uploadedVideos" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+
+
+
+
+
+  </main>
+
+  <script>
+    // Script to update preview area with iframe embed code live
+    const iframeInput = document.getElementById('iframe_html');
+    const previewArea = document.getElementById('previewArea');
+    const previewContainer = document.getElementById('preview');
+
+    function updatePreview() {
+      const val = iframeInput.value.trim();
+      if (val) {
+        // Sanitize by allowing only iframe tags, remove scripts or other tags
+        // Basic approach: create a div, set innerHTML, check if first child is iframe
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = val;
+        const iframe = tempDiv.querySelector('iframe');
+        if (iframe) {
+          // Clear preview area and append iframe with responsive styling
+          previewArea.innerHTML = '';
+          iframe.setAttribute('class', 'w-full h-48 sm:h-64 md:h-72 rounded-md');
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.setAttribute('frameborder', '0');
+          previewArea.appendChild(iframe);
+          previewContainer.classList.remove('hidden');
+        } else {
+          previewArea.innerHTML = '<p class="text-red-500">Invalid iframe embed code.</p>';
+          previewContainer.classList.remove('hidden');
+        }
+      } else {
+        previewArea.innerHTML = '';
+        previewContainer.classList.add('hidden');
+      }
+    }
+
+    iframeInput.addEventListener('input', updatePreview);
+
+    // Initialize preview on page load if textarea has value
+    window.addEventListener('DOMContentLoaded', () => {
+      updatePreview();
+    });
+  </script>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

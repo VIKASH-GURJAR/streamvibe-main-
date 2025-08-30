@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stream44 — Playlists</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left"><a href="index.html" class="logo">← Stream44</a></div>
+    <div class="right"><a href="upload.html" class="btn">Upload</a></div>
+  </header>
+
+  <main class="container narrow">
+    <h1>Playlists</h1>
+    <div class="card">
+      <div class="row">
+        <input id="newPlaylistName" placeholder="New playlist name" />
+        <button id="createPlaylistBtn" class="btn primary">Create</button>
+      </div>
+
+      <div id="playlistList" class="list"></div>
+    </div>
+
+    <div id="playlistViewer" class="card hidden">
+      <button id="backToList" class="btn">← Back</button>
+      <h3 id="playlistTitle"></h3>
+      <div id="playlistVideos" class="grid"></div>
+    </div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
