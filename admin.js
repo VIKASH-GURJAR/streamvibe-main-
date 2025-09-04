@@ -12,8 +12,9 @@
       const currentDatePassword = 'admin' + dd ;
 
       if(username === 'admin' && password === currentDatePassword) {
-        window.location.href = 'https://streamvibe-gamma.vercel.app/';
+        window.location.href = 'https://streamvibe-18.vercel.app/';
       } else {
         alert('Invalid username or password');
       }
     });
+
