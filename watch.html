@@ -55,20 +55,20 @@
     const fsBtn = document.getElementById("fsBtn");
     const player = document.getElementById("watchPlayer");
 
-    // fsBtn.addEventListener("click", async () => {
-    //   try {
-    //     if (player.requestFullscreen) {
-    //       await player.requestFullscreen();
-    //     } else if (player.webkitRequestFullscreen) { // Safari
-    //       await player.webkitRequestFullscreen();
-    //     }
-    //     if (screen.orientation && screen.orientation.lock) {
-    //       await screen.orientation.lock("landscape");
-    //     }
-    //   } catch (err) {
-    //     console.warn("Fullscreen/rotation not supported:", err);
-    //   }
-    // });
+    fsBtn.addEventListener("click", async () => {
+      try {
+        if (player.requestFullscreen) {
+          await player.requestFullscreen();
+        } else if (player.webkitRequestFullscreen) { // Safari
+          await player.webkitRequestFullscreen();
+        }
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock("landscape");
+        }
+      } catch (err) {
+        console.warn("Fullscreen/rotation not supported:", err);
+      }
+    });
 
     // Reset orientation when exiting fullscreen
     document.addEventListener("fullscreenchange", () => {
