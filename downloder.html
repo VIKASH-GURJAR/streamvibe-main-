@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #ff4d4d;
+      --primary-dark: #ff3333;
+      --dark-bg: #121212;
+      --dark-card: #1e1e1e;
+      --dark-hover: #2a2a2a;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --text-muted: #888888;
+      --transition: all 0.3s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Topbar */
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem;
+      background-color: rgba(30, 30, 30, 0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .icon-btn {
+      background: none; border: none; font-size: 1.5rem;
+      cursor: pointer; padding: 0.5rem; color: var(--text-primary);
+      border-radius: 50%; transition: var(--transition);
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background-color: var(--dark-hover); }
+
+    .center {
+      display: flex; justify-content: center; align-items: center; gap: 8px;
+      margin-top: 27px;
+    }
+
+    #searchInput {
+      padding: 10px; border: 1px solid #06e035;
+      border-radius: 8px; outline: none; width: 220px;
+      background: var(--dark-card); color: var(--text-primary);
+    }
+    .btn {
+      padding: 10px 14px; border: none;
+      background: rgb(6, 231, 104); color: white;
+      border-radius: 8px; cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn:hover { background: #05c75f; }
+
+    /* Grid */
+    .container { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    a.card {
+      background: var(--dark-card); border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: var(--transition); text-decoration: none;
+      color: var(--text-primary); display: flex; flex-direction: column; align-items: center;
+      padding: 1.5rem;
+    }
+    a.card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+      background-color: var(--dark-hover);
+      color: var(--primary);
+    }
+    /* a.card img { width: 120px; height: 120px; object-fit: contain; margin-bottom: 1rem; } */
+    a.card img {
+  width: 100%; 
+  height: 200px; 
+  object-fit: cover; 
+  border-radius: 8px; 
+  margin-bottom: 1rem;
+}
+
+    a.card span { font-size: 1.2rem; font-weight: 700; }
+
+    /* Modal shared */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 1000; opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .modal.visible { opacity: 1; visibility: visible; }
+    .modal-content {
+      background: var(--dark-card); border-radius: 12px;
+      padding: 2rem; width: 90%; max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      text-align: center; position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .modal.visible .modal-content { transform: translateY(0); }
+    .close {
+      background: none; border: none; font-size: 1.5rem;
+      position: absolute; top: 15px; right: 15px; cursor: pointer;
+      color: var(--text-secondary); transition: var(--transition);
+      width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
+    }
+    .close:hover { color: var(--text-primary); background-color: var(--dark-hover); }
+
+    /* Menu list */
+    .menu-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+    .menu-item {
+      text-decoration: none; font-size: 1.1rem; color: var(--text-primary);
+      padding: 1rem 1.5rem; border-radius: 8px; transition: var(--transition);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .menu-item:hover { background-color: var(--dark-hover); color: var(--primary); }
+    .menu-item.danger { color: #ff5252; }
+    .menu-item.danger:hover { background-color: rgba(255, 82, 82, 0.1); }
+
+    footer {
+      text-align: center; padding: 2rem; margin-top: 3rem;
+      color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <button id="menuBtn" class="icon-btn" style="position:absolute;top:1rem;left:1rem;">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <a href="home.html" 
+       style="position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+              display: flex; align-items: center; justify-content: center;
+              box-shadow: 0 2px 6px rgba(0,0,0,0.2); font-family: sans-serif;
+              font-size: 18px; font-weight: bold; cursor: pointer; z-index: 999;
+              text-decoration: none;">
+      <i class="fas fa-link" style="margin-right:6px;font-size:22px;color:red;"></i>
+      <span style="color:rgb(6,231,104);">StreamVibe</span>
+    </a>
+
+ 
+  </header>
+
+  <!-- Menu Modal -->
+  <div id="menuModal" class="modal">
+    <div class="modal-content">
+      <button id="closeMenu" class="close"><i class="fas fa-times"></i></button>
+      <nav class="menu-list">
+        <a href="index.html" class="menu-item"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="upload.html" class="menu-item"><i class="fas fa-upload"></i><span>Upload</span></a>
+        <a href="playlists.html" class="menu-item"><i class="fas fa-list"></i><span>Playlists</span></a>
+        <a href="deleted.html" class="menu-item danger"><i class="fas fa-trash"></i><span>Deleted</span></a>
+        <a href="#" id="openPremium" class="menu-item danger">
+          <i class="fas fa-lock" style="color:goldenrod;font-size:20px;"></i>
+          <span style="color:goldenrod;">Membership</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Premium Modal -->
+  <div id="premiumModal" class="modal">
+    <div class="modal-content">
+      <button id="closePremium" class="close"><i class="fas fa-times"></i></button>
+      <i class="fas fa-crown" style="color:gold;font-size:40px;margin-bottom:1rem;"></i>
+      <h2 style="color:gold;margin-bottom:0.5rem;">Go Premium</h2>
+      <p style="color:#b3b3b3;margin-bottom:1.5rem;">
+        Unlock ad-free streaming, exclusive playlists, and admin access.
+      </p>
+      <button onclick="window.location.href='admin.html'"
+              style="background:gold;color:black;font-weight:bold;
+                     padding:12px 24px;border-radius:8px;border:none;
+                     cursor:pointer;margin-bottom:1rem;">
+        Go to Admin
+      </button><br>
+      <button id="closePremiumAlt"
+              style="background:transparent;color:#b3b3b3;
+                     padding:8px 16px;border:none;cursor:pointer;">
+        Continue Free
+      </button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <main class="container">
+    <h3>Anime Streaming servers</h3>
+    <div class="grid">
+
+      <a href="https://vegamovies3.cv/" target="_blank" class="card"><img src="https://imgs.search.brave.com/pt1KBRhZrF4twQlmt1Xg1TuX_qX0S7hOqPYRIz54KGM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZS53aW51ZGYuY29t/L3YyL2ltYWdlMS9Z/Mjl0TG5abFoyRnRi/M1pwWlhNdWRtVm5Z/VzF2ZG1sbGMxOXBZ/Mjl1WHpFMk56RTRO/elV4TWpWZk1EazIv/aWNvbi5wbmc_dz0x/MjAmZmFrZXVybD0x" alt="aniwatchtv"/><span>vegamovies3</span></a>
+      <a href="https://mkvcinemas.gift/" target="_blank" class="card"><img src="https://mkvcinemasapk.com/wp-content/uploads/2025/02/mkvcinemas-movie-app-logo-1.webp" alt="YouTube"/><span>Mkvcinemas</span></a>
+      <a href="https://olamovies.blog/" target="_blank" class="card"><img src="https://imgs.search.brave.com/S6rXAe01sqxT4IAztlU9s-ZRAlsKqCnH48OoG231t98/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/Y2l0eXBuZy5jb20v/cHVibGljL3VwbG9h/ZHMvcHJldmlldy9k/b3dubG9hZC1oZC11/bHRyYS00ay1zaWdu/LWxvZ28tcG5nLTcw/MTc1MTY5NDc3NzA0/NTgycHMyM3RnZnMu/cG5n" alt="Amazon"/><span>Olamovies</span></a>
+      <a href="https://dotmovies.fo/" target="_blank" class="card"><img src="https://imgs.search.brave.com/L897nAuq407OLTgkXSpyK980n4i6TFRclxWmutbp6jA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zaXRl/LWltYWdlcy5zaW1p/bGFyY2RuLmNvbS9p/bWFnZT91cmw9ZG90/bW92aWVzLmxvbCZ0/PTEmcz0xJmg9OGNk/MDUzMmJjZDZlZDU1/MTI0N2QyNmZmZmRj/MTJhOWQxZTQwYWQ0/MDY4ZTY2ZDNjODgy/ZDg0Mjg4NTQ1ZmU1/Mg" alt="YouTube"/><span>Dotmovies</span></a>
+      <a href="https://luxmovies.photography/" target="_blank" class="card"><img src="https://imgs.search.brave.com/txu-BY6_HJJHa0wcHh1E83CrFP8ULnljHHbzlIYRXug/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly95dDMu/Z29vZ2xldXNlcmNv/bnRlbnQuY29tL21o/djJwT3VENHo5NEJu/ckNrWUFfWDhWWnln/ZFVvV1VfYXpEU2xZ/d2wzR0t6NzliMGRp/WE9sVmxTQUZCUW5X/N1JJRzNqd0w0dj1z/OTAwLWMtay1jMHgw/MGZmZmZmZi1uby1y/ag" alt="YouTube"/><span>Luxmovies</span></a>
+      <a href="https://zeefliz.website/" target="_blank" class="card"><img src="https://imgs.search.brave.com/OSZxXnL2ieqAKfi6O1OgIqVJ4O-oX08LEM4DP_ZePgU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9sZXR0/ZXItemUtbG9nby1j/b2xvcmZ1bC1zcGxh/c2gtYmFja2dyb3Vu/ZC1jb21iaW5hdGlv/bi1kZXNpZ24tY3Jl/YXRpdmUtaW5kdXN0/cnktd2ViLWJ1c2lu/ZXNzLWNvbXBhbnkt/MjAzNzg3NzM4Lmpw/Zw" alt="YouTube"/><span>Zeefliz</span></a>
+      <a href="https://www.filmyzilla20.com/" target="_blank" class="card"><img src="https://imgs.search.brave.com/wgCH7o4nmQ2eCJLvjTm2AwrADlPlezr2KP_JBNzqv9k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9saXZl/LnN0YXRpY2ZsaWNr/ci5jb20vNjU1MzUv/NTI2Nzg2ODM2MDNf/ZjZiZjk5OWU2ZV9i/LmpwZw" alt="YouTube"/><span>Filmyzilla20</span></a>
+          <!-- <a href="anime.html"     class="card"><img src="https://storage.googleapis.com/a1aa/image/50f1fabd-330c-4f5a-efc5-8626e031aa81.jpg" alt="Google"/><span>Google</span> -->
+    </div>
+  </main> 
+
+  <footer><p>&copy; A product by 2022-25 PU Batch</p></footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuBtn = document.getElementById('menuBtn');
+      const closeMenu = document.getElementById('closeMenu');
+      const menuModal = document.getElementById('menuModal');
+      const searchBtn = document.getElementById('searchBtn');
+      const openPremium = document.getElementById('openPremium');
+      const premiumModal = document.getElementById('premiumModal');
+      const closePremium = document.getElementById('closePremium');
+      const closePremiumAlt = document.getElementById('closePremiumAlt');
+
+      // Menu
+      menuBtn.addEventListener('click', () => { menuModal.classList.add('visible'); document.body.style.overflow='hidden'; });
+      closeMenu.addEventListener('click', () => { menuModal.classList.remove('visible'); document.body.style.overflow='auto'; });
+      menuModal.addEventListener('click', (e) => { if (e.target===menuModal){menuModal.classList.remove('visible');document.body.style.overflow='auto';} });
+
+      // Premium
+      openPremium.addEventListener('click', (e) => { e.preventDefault(); premiumModal.classList.add('visible'); });
+      [closePremium, closePremiumAlt].forEach(btn => btn.addEventListener('click', () => premiumModal.classList.remove('visible')));
+
+      // Search
+      if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+          const input=document.getElementById('searchInput');
+          if(input.value.trim()!==''){ alert(`Searching for: ${input.value}`); input.value=''; }
+        });
+        document.getElementById('searchInput').addEventListener('keypress', e => { if(e.key==='Enter'){ searchBtn.click(); } });
+      }
+
+      // Button press effect
+      document.querySelectorAll('.btn, .icon-btn').forEach(button => {
+        button.addEventListener('mousedown', () => button.style.transform='scale(0.95)');
+        button.addEventListener('mouseup', () => button.style.transform='');
+        button.addEventListener('mouseleave', () => button.style.transform='');
+      });
+    });
+  </script>
+</body>
+</html>
