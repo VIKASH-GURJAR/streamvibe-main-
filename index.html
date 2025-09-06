@@ -471,18 +471,30 @@
       <button id="menuBtn" class="icon-btn" style="position: absolute; top: 1rem; left: 1rem;">
         <i class="fas fa-bars"></i>
       </button>
-      <div class="logo">
-        <i class="fas fa-play-circle"></i>
-        <span>StreamVibe</span>
-      </div>
+     <a href="home.html" 
+   style="position: fixed; top: 8px; left: 50%; transform: translateX(-50%); 
+          display: flex; align-items: center; justify-content: center; 
+          box-shadow: 0 2px 6px rgba(0,0,0,0.2); font-family: sans-serif; 
+          font-size: 18px; font-weight: bold; cursor: pointer; z-index: 999; 
+          text-decoration: none;">
+  
+  <i class="fas fa-link" style="margin-right: 6px; font-size: 22px; color: red;"></i>
+  <span style="color: rgb(6, 231, 104);">StreamVibe</span>
+</a>
+
     </div>
 
-    <div class="center">
-      <input id="searchInput" placeholder="Search videos, tags..." />
-      <button id="searchBtn" class="btn">
-        <i class="fas fa-search"></i>
-      </button>
-    </div>
+    <div class="center" 
+     style="margin-top: 27px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+  <input id="searchInput" placeholder="Search videos, tags..." 
+         style="padding: 10px; border: 1px solid #06e035; border-radius: 8px; outline: none; width: 200px;">
+  <button id="searchBtn" class="btn" 
+          style="padding: 10px 14px; border: none; background: rgb(6, 231, 104); color: white; 
+                 border-radius: 8px; cursor: pointer;">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
   </header>
 
   <!-- Menu modal -->
@@ -504,14 +516,20 @@
           <i class="fas fa-list"></i>
           <span>Playlists</span>
         </a>
+        
         <a href="deleted.html" class="menu-item danger">
           <i class="fas fa-trash"></i>
           <span>Deleted</span>
         </a>
-    <a href="admin.html" class="menu-item danger">
-      <i class="fas fa-lock"></i>
-          <span>Membership</span>
-        </a>
+    
+        <a href="admin.html" class="menu-item danger" 
+   style="display: flex; align-items: center; gap: 6px; 
+          text-decoration: none; color: black; font-weight: bold;">
+  <i class="fas fa-lock" 
+     style="color: goldenrod; font-size: 20px;"></i>
+  <span style="color: goldenrod;">Membership</span>
+</a>
+
   
       </nav>
     </div>
